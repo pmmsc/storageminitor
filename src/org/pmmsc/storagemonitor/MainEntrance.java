@@ -9,6 +9,10 @@ public class MainEntrance {
 	public static final String CURRENT_DIR = System.getProperty("user.dir"); 
 
 	public static void main(String[] args) {
+		if (args[0] == null || "".equals(args[0])) {
+			System.out.println("Please choose an apk to install.");
+			return;
+		}
 		//安装前清理T卡
 		System.out.println("Initializing the cleaning method, please wait...");
 		Task cleanTF = new CleanTFTask();
@@ -19,9 +23,8 @@ public class MainEntrance {
 		beforeInstall.addAll(dumpTF.getOutputList());
 
 		//正在安装apk
-		String apk = CURRENT_DIR + "/" + args[0];
-		System.out.println("Installing application:" + apk);
-		Task installTask = new InstallTask(apk);
+		System.out.println("Installing application:" + args[0]);
+		Task installTask = new InstallTask(args[0]);
 		installTask.run();
 		Task waitOpen = new WaitTask("Please open the application and use, press any key to continue...");
 		waitOpen.run();
